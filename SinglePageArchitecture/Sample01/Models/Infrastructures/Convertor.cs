@@ -9,9 +9,9 @@ namespace Sample01.Models.Infrastructures
     {
 
         #region [- DtoConvertor(Dtos.Category.DtoPostCategory dto) -]
-        public static Models.DomainModels.Category DtoConvertor(Controllers.Dtos.Category.DtoPostCategory dto)
+        public static Models.DomainModels.Dtos.Category DtoConvertor(Controllers.Dtos.Category.DtoPostCategory dto)
         {
-            Models.DomainModels.Category model = new Models.DomainModels.Category();
+            Models.DomainModels.Dtos.Category model = new Models.DomainModels.Dtos.Category();
             model.Code = dto.Code;
             model.Title = dto.Title;
             return model;
@@ -19,7 +19,7 @@ namespace Sample01.Models.Infrastructures
         #endregion
 
         #region [- DtoConvertor(List<Models.DomainModels.Category> modelList) -]
-        public static List<Controllers.Dtos.Category.DtoGetCategory> DtoConvertor(List<Models.DomainModels.Category> modelList)
+        public static List<Controllers.Dtos.Category.DtoGetCategory> DtoConvertor(List<Models.DomainModels.Dtos.Category> modelList)
         {
             List<Controllers.Dtos.Category.DtoGetCategory> dtoList = new List<Controllers.Dtos.Category.DtoGetCategory>();
             foreach (var item in modelList)
