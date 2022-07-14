@@ -1,0 +1,238 @@
+﻿@model Sample01.Controllers.Dtos.Category.DtoGetCategory
+
+@{
+    ViewBag.Title = "Product Category";
+}
+@*https://www.c-sharpcorner.com/article/using-jquery-datatables-grid-with-asp-net-core-mvc/*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+
+    <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+    <script type="text/javascript" charset="utf8" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+    <title>Category</title>
+</head>
+<body>
+    <div class="container-fluid">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row form-groups" id="panelBar" dir="ltr">
+                <input class="btn btn-success col-sm-1" type="submit" name="saveButton" id="btnSave" value="Save" /><br />
+                <input class="btn btn-warning col-sm-1" type="submit" name="editButton" id="btnEdit" value="Edit" /><br />
+                <input class="btn btn-danger col-sm-1" type="button" name="deleteButton" id="btnDelete" value="Delete" /><br />
+                <input class="btn btn-info col-sm-1" type="button" name="refreshButton" id="btnRefresh" value="Refresh" /><br />
+            </div>
+            <hr />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group ">
+                    @Html.LabelFor(model => model.Code, "Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Code, new { @id = "code", htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Title, new { @id = "title", htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+    <hr />
+    <div class="row ">
+
+        <table id="categoryTable" class=" table table-bordered table-condensed table-striped ">
+            <thead class="border border-bottom border-top">
+                <tr>
+                    <th>Id</th>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+        var js = jQuery.noConflict(true);
+        $(document).ready(function () {
+            //loadDataTable();
+            loadData();
+        });
+
+        function loadDataTable() {
+            alert("Start loadDataTable()");
+            var c = [];
+            $.ajax({
+                url: '/Category/LoadDataTable',
+                type: 'get',
+                dataType: 'json',
+                //async: false,
+                success: function (data) {
+                   //console.log(data);
+                    if (data != null) {
+
+                        $.each(data, function (key, value) {
+                            $.each(value, function (key, itemData) {
+                                //console.log(itemData);
+                                c.push({ "id": itemData.Id, "code": itemData.Code, "title": itemData.Title, "action": '' })
+                               
+                            });
+                        });
+                        
+                    }
+                },
+                error() {
+
+                    alert('error');
+                }
+            });
+            alert("dt begin");
+            //    console.log(c);
+            $('#categoryTable').dataTable({
+                //destroy: true,
+                "bProcessing": true,
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                //"columnDefs": [{
+                //    defaultContent: "????",
+                //    targets: "_all"
+                //}],
+                //"aoColumns": [
+                //    { "mDataProp": "id" },
+                //    { "mDataProp": "code" },
+                //    { "mDataProp": "title" },
+                //    { "mDataProp": "action" }
+                //],
+                //"aaData": [
+                //{ "id": "1", "code": "John", "title": "New York", "action": "" },
+                //{ "id": "2", "code": "John", "title": "New York", "action": "" },
+                //],
+               /* "aaData":c*/
+                
+                //"aaData": $.each(c, function (key, itemData) {
+                //    //console.log(itemData);
+                //    push({ "id": itemData.Id, "code": itemData.Code, "title": itemData.Title, "action": '' })
+
+                //}),
+                data:c
+
+            });
+            console.log(c);
+        }
+
+
+
+        function loadData() {
+            $.ajax({
+                url: '/Category/LoadDataTable',
+                type: "get",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //alert("start success");
+                    //console.log(data);
+                    var html = '';
+                    $.each(data, function (key, item) {
+                        //console.log(item.Id);
+                        $.each(item, function (key, itemData) {
+                            //console.log(itemData.Id);
+                            html += '<tr>';
+                            html += '<td>' + itemData.Id + '</td>';
+                            html += '<td>' + itemData.Code + '</td>';
+                            html += '<td>' + itemData.Title + '</td>';
+                            html += '<td><a href="#" onclick="return getbyID(' + itemData.Id + ')">Edit</a> | <a href="#" onclick="Delele(' + item.Id + ')">Delete</a></td>';
+                            html += '</tr>';
+                        });
+
+                    });
+                    console.log(html);
+                    $("#categoryTable").append(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+
+
+        //************** Save  ********************
+
+        $("#btnSave").click(function () {
+            /*alert("Save is starting.");*/
+            var isDataValid = true;
+            var category = new Object();
+            category.Code = $("#code").val();
+            if (category.Code == '') {
+                isDataValid = false;
+                $("#code").css('border-color', 'red');
+            }
+            else {
+                $("#code").css('border-color', '#ccc');
+            }
+            category.Title = $("#title").val();
+            if (category.Title == '') {
+                $("#title").css('border-color', 'red');
+                isDataValid = false;
+            }
+            else {
+                $("#title").css('border-color', '#ccc');
+            }
+            //alert("Code =" + category.Code);
+            //alert("Title =" + category.Title);
+            if (isDataValid) {
+                $.ajax({
+                    type: 'post',
+                    url: '/Category/Create',
+                    data: category,
+                    success(data) {
+                        if (data == 'pass') {
+                            alert('Save successfully');
+                        }
+                        else {
+                            alert("Error");
+                        }
+                    }
+                })
+            }
+            //loadData();
+        })
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
+

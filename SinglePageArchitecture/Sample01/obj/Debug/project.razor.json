@@ -1,0 +1,19 @@
+{
+  "FilePath": "j:\\01_Train\\MVCClasses\\MVC_Spring1401_90Hours\\Projects\\S14_SinglePage\\SinglePageArchitecture\\Sample01\\Sample01.csproj",
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 703
+  },
+  "RootNamespace": null,
+  "Documents": [],
+  "SerializationFormat": "0.2"
+}
