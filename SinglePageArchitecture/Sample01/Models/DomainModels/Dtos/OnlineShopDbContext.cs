@@ -15,10 +15,10 @@ namespace Sample01.Models.DomainModels.Dtos
         {
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    throw new UnintentionalCodeFirstException();
+        //}
 
         public virtual DbSet<Category> Category { get; set; }
 
